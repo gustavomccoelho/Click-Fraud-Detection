@@ -11,7 +11,7 @@ While successful, they want to always be one step ahead of fraudsters and have t
 
 DATA DESCRIPTION
 
-DataLoading.R -> R Script to load the full data csv file provided for training the model (7 Gb)
+DataLoading.R -> R Script to load the full data csv file provided for training the model (7 Gb)/n
 data.zip -> Reshaped data resulted from the DataLoading.R script with more convenient size (46Mb) and balanced according to target variable (50/50)
 Model.R -> Main script to process the data, create model and save the result
 
