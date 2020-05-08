@@ -17,3 +17,5 @@ data.zip -> Reshaped data resulted from the DataLoading.R script with more conve
 
 Model.R -> Main script to process the data, create model and save the result
 
+*ACCURACY -> 0.88
+
