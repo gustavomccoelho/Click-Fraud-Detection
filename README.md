@@ -17,48 +17,62 @@ test.csv - the test set
 
 sampleSubmission.csv - a sample submission file in the correct format
 
-##  How to predict demand
+##  Data fields
 
-The main strategy behind this script is to tag every possible predictive variable by it's mean demand, according to the train data. For example, we know from the 73 million registers in the train data that the main demand for the product "1212" is 2.84. We will then replace the product ID for this value. 
+ip: ip address of click
 
-The exploratory analysis phase consists on findind the mean demand from each variable, allocating this values to the train and test datasets, treating na values, etc.
+app: app id for marketing
 
-##  Variables not used
+device: device type id of user mobile phone (e.g., iphone 6 plus, iphone 7, huawei mate 7, etc.)
 
-The following variables were not used on this script:
+os: os version id of user mobile phone
 
-~~NombreCliente — Client name~~
+channel: channel id of mobile ad publisher
 
-~~NombreProducto — Product Name~~
+click_time: timestamp of click (UTC)
 
-~~Venta_uni_hoy — Sales unit this week (integer)~~
+attributed_time: if user download the app for after clicking an ad, this is the time of the app download
 
-~~Venta_hoy — Sales this week (unit: pesos)~~
+is_attributed: the target that is to be predicted, indicating the app was downloaded
 
-~~Dev_uni_proxima — Returns unit next week (integer)~~
+##  How to predict app download
 
-~~Dev_proxima — Returns next week (unit: pesos)~~
+The main strategy behind this script is to use the train data to predict the "is_attributed" variable by comparing it's behaviour with the IP, App, OS, Channel and click time. 
 
-##  Outliers
+The main challenge is to narrow this predictive variables to a reasonable amount of factor levels, since there can be thousends of unique values for IPs, for example. 
 
-99.9% of the demands are placed between 0 and 100. The 0.1% left is spread between 100 and 5000. These outliers were remove to prevent any influence on the mean demands. 
+This is done by analysing each predictive variable individually, and assiging ranges where the behaviour is different according to the target variable, such as below:
+
+![Time Distribution](/images/Downloads_by_night_day.png.png)
+![IP Distribution](/images/IP_distribution.png)
+![App Distribution](/images/App_distribution.png)
+![Channel Distribution](/images/channel_distribution.png)
+![OS Distribution](/images/os_distribution.png)
+
+##  Data Balance
+
+The train data has a massive amount of registers, but it is extremelly unbalanced regarding the target variable. For this reason, the data was reshaped to have a 50/50 balance. This reduced the data substantially. 
 
 ##  Prediction Model
 
-The chosen predictive model is Random Forest. The scrip uses the Ranger package, to improve memory usage efficiancy. The model is trained by using a 10 million size sample from the train data and 100 trees. The R-Square value reached is 0.55.  
+The chosen predictive model is Random Forest. The model is trained by using a 10 million size sample from the train data and 100 trees. The R-Square value reached is 0.55.  
 
 ##  How to run scrips
 
-The codes are split into 6 files (5 for each variable and 1 for the predictive model), due to the large memory load required to process the train data. Each exploratory scrip creates two new files called "test_variable_x_mean.csv" and "train_variable_x_mean.csv" which contains the list of the x variable mean values according to the test and train data. 
-
-The "exploratory_analysis_1.R" must be the first to run, since it creates an extra file "train_sample.csv" (train file without outliers) which is used as source for the remaining codes. 
+The codes are split into 3 files. The "data_loading.R" creates the balanced train sample used in the remaining scripts. The "exploratory_analysis.R" replaces the original variables by their levels, making it ready for the "prediction_analysis.R".
 
 Using Command Line:
 ```
-Rscript exploratory_analysis_1.R
-Rscript exploratory_analysis_2.R
-Rscript exploratory_analysis_3.R
-Rscript exploratory_analysis_4.R
-Rscript exploratory_analysis_5.R
+Rscript data_loading.R
+Rscript exploratory_analysis.R
 Rscript predictive_analysis.R
 ```
+##  Points of improvement
+
+To improve the accuracy of this script, the next steps are suggested:
+
+Use a technique to increase the train data size, maintaining the 50/50 balance
+
+Improve the levels assignment, by identifying more precisely the different ranges on each variable
+
+Include more trees during the Random Forest training 
