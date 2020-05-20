@@ -43,7 +43,7 @@ The main challenge is to narrow this predictive variables to a reasonable amount
 
 This is done by analysing each predictive variable individually, and assiging ranges where the behaviour is different according to the target variable, such as below:
 
-![Time Distribution](/images/Downloads_by_night_day.png.png)
+![Time Distribution](/images/Downloads_by_night_day.png)
 ![IP Distribution](/images/IP_distribution.png)
 ![App Distribution](/images/App_distribution.png)
 ![Channel Distribution](/images/channel_distribution.png)
