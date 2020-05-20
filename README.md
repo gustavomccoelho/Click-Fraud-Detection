@@ -55,7 +55,7 @@ The train data has a massive amount of registers, but it is extremelly unbalance
 
 ##  Prediction Model
 
-The chosen predictive model is Random Forest. The model is trained by using a 10 million size sample from the train data and 100 trees. The R-Square value reached is 0.55.  
+The chosen predictive model is Random Forest. The model is trained by using a 900.000 size sample from the balanced train sample and 100 trees. The accuracy reached is 0.8875.  
 
 ##  How to run scrips
 
